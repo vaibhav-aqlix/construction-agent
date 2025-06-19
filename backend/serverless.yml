@@ -1,0 +1,33 @@
+service: construction-agent-backend
+
+provider:
+  name: aws
+  runtime: nodejs20.x
+  stage: staging
+  region: ap-south-1
+
+functions:
+  app:
+    handler: handler.handler
+    timeout: 30
+    events:
+      - http:
+          path: /
+          method: any
+          cors: true
+      - http:
+          path: /{proxy+}
+          method: any
+          cors: true
+
+plugins:
+  - serverless-offline
+  - serverless-dotenv-plugin
+
+custom:
+  serverless-offline:
+    httpPort: 5500
+    babelOptions:
+      presets: ['@babel/preset-env']
+  dotenv:
+    basePath: ./
