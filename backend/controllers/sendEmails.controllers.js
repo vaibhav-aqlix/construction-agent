@@ -24,13 +24,13 @@ export const sendEmails = async (req, res) => {
     console.log(emails, "emails data");
 
     const sesClient = new SESClient({
-        region: process.env.AWS_REGION,
+        region: process.env.CA_AWS_REGION,
         credentials: {
-            accessKeyId: process.env.AWS_ACCESS_KEY_ID,
-            secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
+            accessKeyId: process.env.CA_AWS_ACCESS_KEY_ID,
+            secretAccessKey: process.env.CA_AWS_SECRET_ACCESS_KEY,
         },
     });
-    const source = process.env.AWS_SES_SOURCE_EMAIL;
+    const source = process.env.CA_AWS_SES_SOURCE_EMAIL;
     if (!source) {
         return res
             .status(500)

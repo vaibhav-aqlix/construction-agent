@@ -4,10 +4,18 @@ import dbConnect from "./config/dbConnect.config.js";
 
 dotenv.config();
 
-const port = process.env.PORT || 5500;
+const PORT = process.env.PORT || 8000;
 
-dbConnect().then(() => {
-    app.listen(port, () =>
-        console.log(`Construction Agent Server running on port ${port}.`),
-    );
-});
+const startServer = async () => {
+  try {
+    await dbConnect();
+    app.listen(PORT, () => {
+      console.log(`Server running locally on http://localhost:${PORT}`);
+    });
+  } catch (error) {
+    console.error("Error starting server:", error);
+    process.exit(1);
+  }
+};
+
+startServer();

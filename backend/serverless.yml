@@ -1,0 +1,86 @@
+service: construction-agent-backend
+
+frameworkVersion: '4'
+
+provider:
+  name: aws
+  runtime: nodejs18.x
+  region: us-east-1
+  stage: ${opt:stage, 'dev'}
+  memorySize: 512
+  timeout: 30
+  environment:
+    NODE_ENV: ${self:provider.stage}
+    MONGO_URI: ${env:MONGO_URI}
+    JWT_SECRET: ${env:JWT_SECRET}
+    JWT_EXPIRY: ${env:JWT_EXPIRY, '24h'}
+    AUTH_EMAIL: ${env:AUTH_EMAIL}
+    AUTH_PASSWORD: ${env:AUTH_PASSWORD}
+    OPENAI_API_KEY: ${env:OPENAI_API_KEY}
+    GEMINI_API_KEY: ${env:GEMINI_API_KEY}
+    CA_AWS_REGION: ${self:provider.region}
+    CA_AWS_ACCESS_KEY_ID: ${env:CA_AWS_ACCESS_KEY_ID}
+    CA_AWS_SECRET_ACCESS_KEY: ${env:CA_AWS_SECRET_ACCESS_KEY}
+    CA_AWS_SES_SOURCE_EMAIL: ${env:CA_AWS_SES_SOURCE_EMAIL}
+  iam:
+    role:
+      statements:
+        - Effect: Allow
+          Action:
+            - ses:SendEmail
+            - ses:SendRawEmail
+          Resource: "*"
+        - Effect: Allow
+          Action:
+            - logs:CreateLogGroup
+            - logs:CreateLogStream
+            - logs:PutLogEvents
+          Resource: "*"
+
+functions:
+  api:
+    handler: handler.handler
+    events:
+      - http:
+          path: /{proxy+}
+          method: ANY
+          cors:
+            origin: '*'
+            headers:
+              - Content-Type
+              - X-Amz-Date
+              - Authorization
+              - X-Api-Key
+              - X-Amz-Security-Token
+              - X-Amz-User-Agent
+            allowCredentials: false
+      - http:
+          path: /
+          method: ANY
+          cors:
+            origin: '*'
+            headers:
+              - Content-Type
+              - X-Amz-Date
+              - Authorization
+              - X-Api-Key
+              - X-Amz-Security-Token
+              - X-Amz-User-Agent
+            allowCredentials: false
+
+plugins:
+  - serverless-offline
+
+custom:
+  serverless-offline:
+    httpPort: 5500
+    host: localhost
+
+package:
+  exclude:
+    - node_modules/**
+    - .env
+    - .git/**
+    - .history/**
+    - README.md
+    - function.zip 
