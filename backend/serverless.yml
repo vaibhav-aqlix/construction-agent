@@ -5,7 +5,7 @@ frameworkVersion: '4'
 provider:
   name: aws
   runtime: nodejs18.x
-  region: us-east-1
+  region: ap-south-1
   stage: ${opt:stage, 'dev'}
   memorySize: 512
   timeout: 30
@@ -38,35 +38,18 @@ provider:
           Resource: "*"
 
 functions:
-  api:
+  app:
     handler: handler.handler
+    timeout: 30
     events:
       - http:
-          path: /{proxy+}
-          method: ANY
-          cors:
-            origin: '*'
-            headers:
-              - Content-Type
-              - X-Amz-Date
-              - Authorization
-              - X-Api-Key
-              - X-Amz-Security-Token
-              - X-Amz-User-Agent
-            allowCredentials: false
-      - http:
           path: /
-          method: ANY
-          cors:
-            origin: '*'
-            headers:
-              - Content-Type
-              - X-Amz-Date
-              - Authorization
-              - X-Api-Key
-              - X-Amz-Security-Token
-              - X-Amz-User-Agent
-            allowCredentials: false
+          method: any
+          cors: true
+      - http:
+          path: /{proxy+}
+          method: any
+          cors: true
 
 plugins:
   - serverless-offline
@@ -75,12 +58,3 @@ custom:
   serverless-offline:
     httpPort: 5500
     host: localhost
-
-package:
-  exclude:
-    - node_modules/**
-    - .env
-    - .git/**
-    - .history/**
-    - README.md
-    - function.zip 
