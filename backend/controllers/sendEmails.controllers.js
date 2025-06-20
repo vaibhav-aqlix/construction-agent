@@ -2,7 +2,7 @@ import { SendEmailCommand, SESClient } from "@aws-sdk/client-ses";
 
 export const sendEmails = async (req, res) => {
     const { vendors, subject, body } = req.body;
-    console.log(vendors, subject, body, "test blabla");
+
     if (typeof subject !== "string" || typeof body !== "string") {
         return res
             .status(400)

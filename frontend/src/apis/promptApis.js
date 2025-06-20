@@ -1,3 +1,4 @@
+// const serverUrl = "https://5q2ifjbt54.execute-api.ap-south-1.amazonaws.com/staging";
 const serverUrl = import.meta.env.VITE_BACKEND_URL;
 
 // export const getPromptResponseApi = async (promptResponsePayload, authToken) => {

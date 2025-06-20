@@ -12,13 +12,13 @@ export default function EmailForm() {
     const handleSubmit = (event) => {
         event.preventDefault();
         // setTimeout(() => {
-        //     setSent(true);
-        // }, [1000])
-
-        // setEmailSubject("");
-        // setEmailBody("");
-
-        dispatch(sendEmails({subject: emailSubject, body: emailBody}));
+            // }, [1000])
+            
+            
+            dispatch(sendEmails({subject: emailSubject, body: emailBody}));
+            setEmailSubject("");
+            setEmailBody("");
+            setSent(true);
     }
 
     return (
@@ -49,7 +49,7 @@ export default function EmailForm() {
                 Send
             </button>
 
-            {/* {sent && <p>Your quotation has been sent to {promptResponse?.totalEmails} emails</p>} */}
+            {sent && <p>Your quotation has been sent to emails</p>}
         </form>
     )
 }

@@ -111,6 +111,8 @@ dist
 # Serverless directories
 .serverless/
 
+function.zip
+
 # FuseBox cache
 .fusebox/
 

@@ -3,18 +3,30 @@ service: construction-agent-backend
 provider:
   name: aws
   runtime: nodejs20.x
-  stage: staging
-  region: ap-south-1
+  stage: ${opt:stage, 'staging'}
+  region: ${opt:region, 'ap-south-1'}
+  environment:
+    NODE_ENV: ${opt:stage, 'production'}
+    PORT: ${env:PORT}
+    MONGO_URI: ${env:MONGO_URI}
+    JWT_SECRET: ${env:JWT_SECRET}
+    JWT_EXPIRY: ${env:JWT_EXPIRY}
+    AUTH_EMAIL: ${env:AUTH_EMAIL}
+    AUTH_PASSWORD: ${env:AUTH_PASSWORD}
+    OPENAI_API_KEY: ${env:OPENAI_API_KEY}
+    AWS_SES_SOURCE_EMAIL: ${env:AWS_SES_SOURCE_EMAIL}
+
+package:
+  exclude:
+    - .env
+    - .env.*
+    - .prettierrc
 
 functions:
   app:
     handler: handler.handler
     timeout: 30
     events:
-      - http:
-          path: /
-          method: any
-          cors: true
       - http:
           path: /{proxy+}
           method: any

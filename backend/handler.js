@@ -13,6 +13,11 @@ const connectDB = async () => {
   }
 };
 
+// app.use(async (req, res, next) => {
+//   await connectDB();
+//   next();
+// });
+
 const wrapped = serverless(app);
 
 export const handler = async (event, context) => {

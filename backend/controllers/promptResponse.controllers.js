@@ -4,8 +4,7 @@ import PromptResponses from "../models/promptResponses.models.js";
 
 const openai = new OpenAI({
     apiKey:
-        process.env.OPENAI_API_KEY ||
-        "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",
+        process.env.OPENAI_API_KEY || "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",
 });
 
 const createPrompt = (vendorTypes, locations, excludes) => {
@@ -174,7 +173,7 @@ export const generatePromptResponseChatGpt = async (req, res) => {
     // build the prompt
     const userPrompt = `
         You are an AI agent with access to the public web.
-        Your job is to find as many construction vendors as you can within the allowed token limit, strictly adhering to these criteria:
+        Your job is to find as many construction vendors in GERMANY, as you can within the allowed token limit, strictly adhering to these criteria:
 
         Categories:
         ${categories.map((c) => `- ${c}`).join("\n")}
@@ -185,7 +184,7 @@ export const generatePromptResponseChatGpt = async (req, res) => {
         ${exclusionInstruction}
 
         Rules:
-        1. Only include vendors whose city exactly matches one of the specified Locations.
+        1. Only include vendors whose city exactly matches one of the specified Locations
         2. Do not invent locations or include vendors from other cities.
         3. For each vendor include:
             • name

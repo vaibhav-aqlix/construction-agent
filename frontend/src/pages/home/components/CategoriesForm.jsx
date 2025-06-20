@@ -390,7 +390,7 @@ export default function CategoriesForm({setShowSendEmailsComponent}) {
             </div>
           </div>
 
-          <div className="flex justify-between gap-12">
+          {/* <div className="flex justify-between gap-12">
             <div className="">
               <label className="text-gray-600 font-semibold flex gap-2">
                 <input 
@@ -404,7 +404,7 @@ export default function CategoriesForm({setShowSendEmailsComponent}) {
                 Exclude companies registered with Chamber of Germany.
               </label>
             </div>
-          </div>
+          </div> */}
 
           <div className="flex flex-col gap-2">
             <span className="text-gray-800">Select Number of Responses</span>

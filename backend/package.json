@@ -4,8 +4,9 @@
     "main": "server.js",
     "type": "module",
     "scripts": {
-        "start": "node server.js",
+        "start": "node handler.js",
         "dev": "nodemon server.js",
+        "build": "npm prune --staging",
         "test": "echo \"Error: no test specified\" && exit 1",
         "format": "prettier --write ."
     },
@@ -25,6 +26,8 @@
     "devDependencies": {
         "dotenv": "^16.5.0",
         "nodemon": "^3.1.9",
-        "prettier": "3.4.2"
+        "prettier": "3.4.2",
+        "serverless-dotenv-plugin": "^6.0.0",
+        "serverless-offline": "^14.4.0"
     }
 }
