@@ -1,8 +1,6 @@
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { getPromptResponse } from "../../../features/prompt/promptSlice";
-import EmailsModal from "./SendEmails";
-import { getPromptResponseApi } from "../../../apis/promptApis";
 
 export default function CategoriesForm({setShowSendEmailsComponent}) {
   const categoryOptions = [
@@ -193,9 +191,9 @@ export default function CategoriesForm({setShowSendEmailsComponent}) {
 
     const promptResponsePayload = { categories: selectedSubcategories, locations: selectedLocations, excludeChamberOfGermanyCompanines, numberOfResponses };
     try {
-      // dispatch(getPromptResponse(promptResponsePayload, authToken));
-      console.log(promptResponsePayload, "prompt res");
-      dispatch(getPromptResponse(promptResponsePayload));
+      console.log(authToken, "prompt res");
+      dispatch(getPromptResponse({promptResponsePayload, authToken}));
+      // dispatch(getPromptResponse(promptResponsePayload));
     } catch (error) {
       // toast.error('Error updating companion profile details: ' + err.message);
       console.error(error);

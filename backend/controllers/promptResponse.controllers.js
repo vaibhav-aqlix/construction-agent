@@ -140,13 +140,14 @@ export const generatePromptResponseChatGpt = async (req, res) => {
         numberOfResponses,
     } = req.body;
 
+    console.log(categories, locations, excludeChamberOfGermanyCompanines, numberOfResponses, "abcd")
+
     if (
         !Array.isArray(categories) ||
-        !Array.isArray(locations) ||
-        typeof excludeChamberOfGermanyCompanines !== "boolean"
+        !Array.isArray(locations)
     ) {
         return res.status(400).json({
-            error: "Expected { categories: string[], locations: string[], excludeChamberOfGermanyCompanines: boolean }",
+            error: "Expected { categories: string[], locations: string[] }",
         });
     }
 

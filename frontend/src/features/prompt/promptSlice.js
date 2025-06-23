@@ -13,14 +13,13 @@ const initialState = {
 
 export const getPromptResponse = createAsyncThunk(
   "prompt/getPromptResponse",
-  //   async (promptResponsePayload, authToken, { rejectWithValue }) => {
-  async (promptResponsePayload, { rejectWithValue }) => {
+    async ({promptResponsePayload, authToken}, { rejectWithValue }) => {
+  // async (promptResponsePayload, { rejectWithValue }) => {
     try {
-      //   const promptResponse = await getPromptResponseApi(
-      //     promptResponsePayload,
-      //     authToken
-      //   );
-      const promptResponse = await getPromptResponseApi(promptResponsePayload);
+      const promptResponse = await getPromptResponseApi(
+        promptResponsePayload,
+        authToken
+      );
 
       return await promptResponse.json();
     } catch (error) {
@@ -31,7 +30,7 @@ export const getPromptResponse = createAsyncThunk(
 
 export const sendEmails = createAsyncThunk(
   "prompt/sendEmails",
-  async ({ subject, body }, { getState, rejectWithValue }) => {
+  async ({ subject, body, authToken }, { getState, rejectWithValue }) => {
     const {
       prompt: { selectedVendors },
     } = getState();
@@ -41,18 +40,10 @@ export const sendEmails = createAsyncThunk(
         vendors: selectedVendors,
         subject,
         body,
+        authToken,
       });
 
-      const sendEmailsResponseData = await sendEmailsResponse.json();
-    //   if (!sendEmailsResponseData.ok) {
-    //     // assume API returns { error: "..."} on failure
-    //     return rejectWithValue(
-    //       sendEmailsResponseData.error || "Failed to send emails"
-    //     );
-    //   }
-
-    //   return sendEmailsResponseData;
-        console.log(sendEmailsResponseData, "send emails data");
+      return await sendEmailsResponse.json();
     } catch (error) {
       return rejectWithValue(error.message);
     }
@@ -69,33 +60,33 @@ const promptSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder
-        .addCase(getPromptResponse.pending, (state) => {
-            state.loading = true;
-            state.promptResponse = null;
-            state.error = null;
-        })
-        .addCase(getPromptResponse.fulfilled, (state, action) => {
-            state.loading = false;
-            state.promptResponse = action.payload;
-        })
-        .addCase(getPromptResponse.rejected, (state, action) => {
-            state.loading = false;
-            state.error = action.payload;
-        })
+      .addCase(getPromptResponse.pending, (state) => {
+        state.loading = true;
+        state.promptResponse = null;
+        state.error = null;
+      })
+      .addCase(getPromptResponse.fulfilled, (state, action) => {
+        state.loading = false;
+        state.promptResponse = action.payload;
+      })
+      .addCase(getPromptResponse.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload;
+      })
 
-        .addCase(sendEmails.pending, (state) => {
-            state.sending = true;
-            state.sendEmailsResponse = null;
-            state.sendError = null;
-        })
-        .addCase(sendEmails.fulfilled, (state, action) => {
-            state.sending = false;
-            state.sendEmailsResponse = action.payload;
-        })
-        .addCase(sendEmails.rejected, (state, action) => {
-            state.sending = false;
-            state.sendError = action.payload;
-        });
+      .addCase(sendEmails.pending, (state) => {
+        state.sending = true;
+        state.sendEmailsResponse = null;
+        state.sendError = null;
+      })
+      .addCase(sendEmails.fulfilled, (state, action) => {
+        state.sending = false;
+        state.sendEmailsResponse = action.payload;
+      })
+      .addCase(sendEmails.rejected, (state, action) => {
+        state.sending = false;
+        state.sendError = action.payload;
+      });
   },
 });
 

@@ -17,44 +17,13 @@ export default function Login() {
     event.preventDefault();
 
     try {
-        const loginUserResponse = await dispatch(loginUser({email, password}));
-
-        if (loginUserResponse.type === "auth/login/fulfilled") {
-            alert("Logged in successfully!");
-            navigate("/");
-        }
+        await dispatch(loginUser({email, password})).unwrap();
+        alert("Logged in successfully!");
+        navigate("/");
     } catch (error) {
         console.log(error);
         alert("Unable to login");
     }
-    // setError(null);
-    // setLoading(true);
-    // try {
-    //   const response = await login({ email, password });
-    //   const { token, data } = response;
-
-    //   localStorage.setItem('authToken', token);
-    //   localStorage.setItem('currentUser', JSON.stringify(data));
-
-    //   dispatch(
-    //     loginDetails({
-    //       token,
-    //       data: JSON.parse(localStorage.getItem('currentUser')),
-    //     }),
-    //   );
-
-    //   toast.success('Login successful!', {
-    //     className: 'toast-container',
-    //   });
-
-    //   navigate('/home');
-    // } catch (err) {
-    //   console.error(err);
-    //   setError(err.response?.data?.message || 'Invalid email or password.');
-    //   toast.error('Failed to Login', { className: 'toast-container' });
-    // } finally {
-    //   setLoading(false);
-    // }
   };
 
   return (

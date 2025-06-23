@@ -6,7 +6,7 @@ provider:
   stage: ${opt:stage, 'staging'}
   region: ${opt:region, 'ap-south-1'}
   environment:
-    NODE_ENV: ${opt:stage, 'production'}
+    NODE_ENV: ${opt:stage, 'staging'}
     PORT: ${env:PORT}
     MONGO_URI: ${env:MONGO_URI}
     JWT_SECRET: ${env:JWT_SECRET}
@@ -27,7 +27,7 @@ functions:
     handler: handler.handler
     timeout: 30
     events:
-      - http:
+      - httpApi:
           path: /{proxy+}
           method: any
           cors: true

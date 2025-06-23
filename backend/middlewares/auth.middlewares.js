@@ -1,9 +1,9 @@
 import jwt from "jsonwebtoken";
 
-export default authMiddleware = (req, res, next) => {
-    const authHeader = req.headers.authorization;
+export const authMiddleware = (req, res, next) => {
+    const authToken = req.headers.authorization;
 
-    if (!authHeader) {
+    if (!authToken) {
         console.error("Unauthorized - missing authorization token");
         return res
             .status(401)
@@ -11,7 +11,7 @@ export default authMiddleware = (req, res, next) => {
     }
 
     try {
-        const authorizationToken = authHeader.split(" ")[1];
+        const authorizationToken = authToken.split(" ")[1];
         const authorizationPayload = jwt.verify(
             authorizationToken,
             process.env.JWT_SECRET,

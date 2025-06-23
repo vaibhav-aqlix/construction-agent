@@ -1,12 +1,11 @@
 import jwt from "jsonwebtoken";
 
 export const login = (req, res) => {
-    console.log("here");
     const { email, password } = req.body;
 
     if (!email || !password) {
         console.error("Unauthorized - missing authorization credentials");
-        res.status(401).json({ status: "Unauthorized" });
+        res.status(401).json({ status: "Unauthorized - missing authorization credentials" });
     }
 
     try {

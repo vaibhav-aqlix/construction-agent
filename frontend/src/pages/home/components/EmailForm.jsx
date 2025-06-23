@@ -4,6 +4,7 @@ import { sendEmails } from "../../../features/prompt/promptSlice";
 
 export default function EmailForm() {
     const {selectedVendors} = useSelector(state => state.prompt);
+    const {authToken} = useSelector(state => state.auth);
     const [emailSubject, setEmailSubject] = React.useState("");
     const [emailBody, setEmailBody] = React.useState("");
     const [sent, setSent] = React.useState(false);
@@ -11,14 +12,10 @@ export default function EmailForm() {
 
     const handleSubmit = (event) => {
         event.preventDefault();
-        // setTimeout(() => {
-            // }, [1000])
-            
-            
-            dispatch(sendEmails({subject: emailSubject, body: emailBody}));
-            setEmailSubject("");
-            setEmailBody("");
-            setSent(true);
+        dispatch(sendEmails({subject: emailSubject, body: emailBody, authToken}));
+        setEmailSubject("");
+        setEmailBody("");
+        setSent(true);
     }
 
     return (

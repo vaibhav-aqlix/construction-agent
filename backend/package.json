@@ -4,8 +4,9 @@
     "main": "server.js",
     "type": "module",
     "scripts": {
-        "start": "node handler.js",
+        "start": "node server.js",
         "dev": "nodemon server.js",
+        "staging": "serverless offline",
         "build": "npm prune --staging",
         "test": "echo \"Error: no test specified\" && exit 1",
         "format": "prettier --write ."
@@ -17,6 +18,7 @@
         "@aws-sdk/client-ses": "^3.830.0",
         "axios": "^1.9.0",
         "cors": "^2.8.5",
+        "dotenv": "^16.5.0",
         "express": "^4.21.2",
         "jsonwebtoken": "^9.0.2",
         "mongoose": "^8.16.0",
@@ -24,7 +26,6 @@
         "serverless-http": "^3.2.0"
     },
     "devDependencies": {
-        "dotenv": "^16.5.0",
         "nodemon": "^3.1.9",
         "prettier": "3.4.2",
         "serverless-dotenv-plugin": "^6.0.0",

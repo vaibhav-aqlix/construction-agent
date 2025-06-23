@@ -3,15 +3,10 @@ import { loginUserApi } from "../../apis/authApis";
 
 export const loginUser = createAsyncThunk(
     "auth/login",
-    async (credentials, { rejectWithValue }) => {
-        console.log(credentials, "login creds")
-        const { email, password} =  credentials
+    async ({email, password}, { rejectWithValue }) => {
         try {
-            const token  = await loginUserApi(email,password);
-            console.log(token, "auth token bla")
-
-          
-            return await token;
+            const loginUserResponse  = await loginUserApi(email, password);
+            return loginUserResponse;
         } catch (error) {
             return rejectWithValue(error.message);
         }
@@ -19,7 +14,7 @@ export const loginUser = createAsyncThunk(
 )
 
 const initialState = {
-    authToken: localStorage.getItem("authToken"),
+    authToken: localStorage.getItem("authToken") || null,
     status: "idle",
     error: null
 }
@@ -39,9 +34,8 @@ export const authSlice = createSlice({
             .addCase(loginUser.pending, state => { state.status = 'loading'; })
             .addCase(loginUser.fulfilled, (state, action) => {
                 state.status = 'success';
-                state.authToken = action.payload;
-                console.log('actim paylaod',action.payload)
-                  localStorage.setItem('authToken', action.payload);
+                state.authToken = action.payload.token;
+                localStorage.setItem('authToken', action.payload.token);
             })
             .addCase(loginUser.rejected, (state, action) => {
                 state.status = 'fail';
